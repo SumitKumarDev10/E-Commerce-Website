@@ -9,10 +9,11 @@ https://docs.amplication.com/how-to/custom-code
 
 ------------------------------------------------------------------------------
   */
-import { ObjectType, Field } from "@nestjs/graphql";
+import { ObjectType, Field, Float } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString, IsOptional } from "class-validator";
+import { IsDate, IsNumber, IsString, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
+import { Decimal } from "decimal.js";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
@@ -26,6 +27,14 @@ class User {
   @Type(() => Date)
   @Field(() => Date)
   createdAt!: Date;
+
+  @ApiProperty({
+    required: true,
+    type: Number,
+  })
+  @IsNumber()
+  @Field(() => Float)
+  credit!: Decimal;
 
   @ApiProperty({
     required: false,
@@ -47,15 +56,19 @@ class User {
   id!: string;
 
   @ApiProperty({
-    required: false,
+    required: true,
     type: String,
   })
   @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
+  @Field(() => String)
+  lastName!: string;
+
+  @ApiProperty({
+    required: true,
   })
-  lastName!: string | null;
+  @IsJSONValue()
+  @Field(() => GraphQLJSON)
+  purchaseHistory!: JsonValue;
 
   @ApiProperty({
     required: true,
