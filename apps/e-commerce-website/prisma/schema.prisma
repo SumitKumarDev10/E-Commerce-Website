@@ -8,12 +8,23 @@ generator client {
 }
 
 model User {
-  createdAt DateTime @default(now())
-  firstName String?
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  lastName  String?
-  password  String
-  roles     Json
-  updatedAt DateTime @updatedAt
-  username  String   @unique
+  createdAt       DateTime @default(now())
+  credit          Decimal
+  firstName       String?
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  lastName        String
+  password        String
+  purchaseHistory Json
+  roles           Json
+  updatedAt       DateTime @updatedAt
+  username        String   @unique
+}
+
+model FoodStock {
+  createdAt    DateTime @default(now())
+  foodName     String?
+  foodPrice    Decimal
+  foodQuantity Int?
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt    DateTime @updatedAt
 }
